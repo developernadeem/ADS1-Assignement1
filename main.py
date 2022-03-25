@@ -23,7 +23,7 @@ def plot_multiline(df, columns, title):
         # format the axes as date
         plt.plot('Date', column, data=df)
     plt.legend()
-    plt.title(title)
+    plt.title(title, fontweight="bold")
     plt.savefig(title + ".png")
     plt.show()
 
@@ -44,8 +44,23 @@ def plot_bar(df, title):
     dft = df.T
     plt.figure()
     dft.plot(kind='bar', rot=0)
-    plt.title(title)
-    plt.savefig(title + "")
+    plt.title(title, fontweight="bold")
+    plt.savefig(title + ".png")
+    plt.show()
+
+
+def plot_pie_plot(df, title):
+    """
+    This function plots a pei plot of given dataframe and saves its image with given title
+    :param df: DataFrame
+        Data frame that need to be plotted in pie chart
+    :param title: str
+        Title of the plot, name of image
+    """
+    plt.figure()
+    plt.pie(df.mean(), labels=df.columns, autopct='%1.1f%%')
+    plt.title(title, fontweight="bold")
+    plt.savefig(title + ".png")
     plt.show()
 
 
@@ -69,6 +84,10 @@ def read_data(name):
     plot_multiline(df, ["White", "Black", "Asian", "Hispanic"],
                    "Ethnicity base unemployment")
     plot_bar(df, "Men vs Women")
+    # Drop the columns that need not be in pie chart
+    # e.g Year has no meaning in un-empowerment pie chart
+    df = df.drop(['Year', 'Month', 'Date'], axis=1, errors='ignore')
+    plot_pie_plot(df, "Average un-employment 2010-2020")
 
 
 # Press the green button in the gutter to run the script.
